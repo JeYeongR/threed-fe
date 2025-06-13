@@ -2,10 +2,11 @@ import HeaderPageComponent from "@components/sementic/header/header.component.ts
 import WriteComponent from "@components/page/post/write/postWrite.component";
 import FooterPageComponent from "@components/sementic/footer/footer.component";
 interface PageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
-export default function WritePage({ params }: PageProps) {
+export default async function WritePage({ params: paramsPromise }: PageProps) {
+  const params = await paramsPromise;
   return (
     <>
       <HeaderPageComponent />
