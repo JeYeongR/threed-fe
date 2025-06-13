@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuth } from '@hooks/useAuth';
-import { api } from '@lib/api';
+import { api } from '@lib/api/api';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -48,7 +48,7 @@ export default function UserBtnComponent() {
 
   return (
     <div className={styles.nav_icons}>
-            <Link
+      <Link
         href="/post/write"
         onClick={handleWriteClick}
         className={isAuthenticated ? styles.on : styles.off}

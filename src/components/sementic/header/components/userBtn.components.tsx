@@ -1,14 +1,14 @@
 'use client'
 
 import { useAuth } from '@hooks/useAuth';
-import { api } from '@lib/api';
+import { api } from '@lib/api/api';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import styles from "./userBtn.module.scss";
 
 export default function UserBtnComponent() {
-    const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
   const router = useRouter();
   const [isCreating, setIsCreating] = useState(false);
 
@@ -40,7 +40,7 @@ export default function UserBtnComponent() {
 
   return (
     <div className={styles.nav_icons}>
-                  <Link
+      <Link
         href="/post/write"
         onClick={handleWriteClick}
         className={isAuthenticated ? styles.on : styles.off}
