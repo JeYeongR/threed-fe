@@ -10,8 +10,7 @@ export function usePostWrite() {
     const router = useRouter();
 
     const postId = id ? Number(id) : 0;
-        const [currentPostId, setPostId] = useState<number>(postId);
-    const [isCreating, setIsCreating] = useState(false);
+    const [currentPostId, setPostId] = useState<number>(postId);
 
         const { submit, createTempPost, uploadImage } = useWrite();
 
@@ -46,12 +45,10 @@ export function usePostWrite() {
     useEffect(() => {
         const initNewPost = async () => {
             if (postId === 0) {
-                setIsCreating(true);
                 const newPostId = await createTempPost();
                 if (newPostId) {
                     setPostId(newPostId);
                 }
-                setIsCreating(false);
             }
         };
         initNewPost();
@@ -90,6 +87,5 @@ export function usePostWrite() {
         field,
         skills,
         uploadImage,
-        isCreating,
     };
 }
