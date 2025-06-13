@@ -12,7 +12,7 @@ export function usePostWrite() {
     const postId = id ? Number(id) : 0;
     const [currentPostId, setPostId] = useState<number>(postId);
 
-    const { submit, uploadImage } = useWrite();
+    const { submit } = useWrite();
 
     const { post, loading, error } = usePost(
         currentPostId,
@@ -26,7 +26,7 @@ export function usePostWrite() {
 
     const [field, setField] = useState('');
     const [skills, setSkills] = useState<string[]>([]);
-    
+    const [image, setImage] = useState<File | undefined>();
 
     const didInit = useRef(false);
 
@@ -48,11 +48,12 @@ export function usePostWrite() {
         const title = titleRef.current?.value || '';
         const content = editorRef.current?.getInstance().getMarkdown() || '';
 
-                const newPostId = await submit(currentPostId, {
+        const newPostId = await submit(currentPostId, {
             title,
             content,
             field,
             skills,
+            image,
         });
 
         if (newPostId) {
@@ -60,7 +61,7 @@ export function usePostWrite() {
         }
     };
 
-        return {
+    return {
         postId: currentPostId,
         setPostId,
         post,
@@ -72,8 +73,9 @@ export function usePostWrite() {
         setField,
         setSkills,
         handleSubmit,
-        uploadImage,
+        setImage,
         field,
         skills,
+        image,
     };
 }
