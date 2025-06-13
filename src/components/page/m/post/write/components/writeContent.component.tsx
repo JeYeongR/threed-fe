@@ -9,32 +9,20 @@ import 'prismjs/themes/prism.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 
-interface ToastEditorProps {
-    editorRef: React.RefObject<any>;
-    initialContent?: string;
-    postId: number;
-    uploadImage: (postId: number, image: File) => Promise<string | null>;
-}
+import { useImageUpload } from '../hooks/useImageUpload';
 
 export default function ToastEditor({
     editorRef,
     initialContent = '',
     postId,
-    uploadImage,
-}: ToastEditorProps) {
-    const onUploadImage = async (blob: File, callback: (url: string, altText: string) => void) => {
-        if (!postId || postId === 0) {
-            alert('게시글이 생성되지 않아 이미지를 업로드할 수 없습니다.');
-            return;
-        }
-
-        const imageUrl = await uploadImage(postId, blob);
-        if (imageUrl) {
-            callback(imageUrl, 'image');
-        } else {
-            // 에러 알림은 uploadImage 함수 내부에서 처리하므로 여기서는 생략 가능
-        }
-    };
+    setPostId, // ✅ 추가
+}: {
+    editorRef: React.RefObject<any>;
+    initialContent?: string;
+    postId: number;
+    setPostId: (id: number) => void; // ✅ 타입 명시
+}) {
+    useImageUpload(editorRef, postId, setPostId); // ✅ setPostId도 전달
 
     return (
         <div className={style.content}>
@@ -44,12 +32,9 @@ export default function ToastEditor({
                 previewStyle="tab"
                 height="500px"
                 initialEditType="markdown"
-                hideModeSwitch={true}
+                hideModeSwitch="readOnly"
                 useCommandShortcut={true}
                 plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
-                hooks={{
-                    addImageBlobHook: onUploadImage,
-                }}
             />
         </div>
     );

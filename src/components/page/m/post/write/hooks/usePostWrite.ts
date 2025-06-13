@@ -12,7 +12,7 @@ export function usePostWrite() {
     const postId = id ? Number(id) : 0;
     const [currentPostId, setPostId] = useState<number>(postId);
 
-        const { submit, createTempPost, uploadImage } = useWrite();
+    const { submit } = useWrite();
 
     const { post, loading, error } = usePost(
         currentPostId,
@@ -26,7 +26,7 @@ export function usePostWrite() {
 
     const [field, setField] = useState('');
     const [skills, setSkills] = useState<string[]>([]);
-    
+    const [image, setImage] = useState<File | undefined>();
 
     const didInit = useRef(false);
 
@@ -42,18 +42,6 @@ export function usePostWrite() {
         }
     }, [post]);
 
-    useEffect(() => {
-        const initNewPost = async () => {
-            if (postId === 0) {
-                const newPostId = await createTempPost();
-                if (newPostId) {
-                    setPostId(newPostId);
-                }
-            }
-        };
-        initNewPost();
-    }, [postId, createTempPost]);
-
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
@@ -65,6 +53,7 @@ export function usePostWrite() {
             content,
             field,
             skills,
+            image,
         });
 
         if (newPostId) {
@@ -84,8 +73,9 @@ export function usePostWrite() {
         setField,
         setSkills,
         handleSubmit,
+        setImage,
         field,
         skills,
-        uploadImage,
+        image,
     };
 }

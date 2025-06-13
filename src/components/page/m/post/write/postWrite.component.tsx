@@ -16,12 +16,12 @@ interface WriteComponentProps {
     postId?: number;
 }
 
-export default function WriteComponent({ isEditMode }: WriteComponentProps) {
+export default function WriteComponent({ isEditMode, postId = 0 }: WriteComponentProps) {
     const router = useRouter();
     const { isAuthenticated } = useAuth();
 
     const {
-        postId: currentPostId,
+        setPostId,
         post,
         loading,
         error,
@@ -33,7 +33,6 @@ export default function WriteComponent({ isEditMode }: WriteComponentProps) {
         setField,
         setSkills,
         handleSubmit,
-        uploadImage,
     } = usePostWrite();
 
     const didRedirect = useRef(false);
@@ -88,8 +87,8 @@ export default function WriteComponent({ isEditMode }: WriteComponentProps) {
                         <WriteContent
                             editorRef={editorRef}
                             initialContent={post?.content || "내용을 입력해주세요."}
-                            postId={currentPostId}
-                            uploadImage={uploadImage}
+                            postId={postId}
+                            setPostId={setPostId}
                         />
                     </li>
                     <li>
