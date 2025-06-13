@@ -34,6 +34,7 @@ export default function WriteComponent({ isEditMode }: WriteComponentProps) {
         setSkills,
         handleSubmit,
         uploadImage,
+        isCreating,
     } = usePostWrite();
 
     const didRedirect = useRef(false);
@@ -85,12 +86,16 @@ export default function WriteComponent({ isEditMode }: WriteComponentProps) {
                     </li>
                     <li>
                         <div className={styles.write_txt}>내용</div>
-                        <WriteContent
-                            editorRef={editorRef}
-                            initialContent={post?.content || "내용을 입력해주세요."}
-                            postId={currentPostId}
-                            uploadImage={uploadImage}
-                        />
+                        {isCreating ? (
+                            <div>게시글을 생성하고 있습니다. 잠시만 기다려주세요...</div>
+                        ) : (
+                            <WriteContent
+                                editorRef={editorRef}
+                                initialContent={post?.content || "내용을 입력해주세요."}
+                                postId={currentPostId}
+                                uploadImage={uploadImage}
+                            />
+                        )}
                     </li>
                     <li>
                         <div className={styles.btn_box}>
