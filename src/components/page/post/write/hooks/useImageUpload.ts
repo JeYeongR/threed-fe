@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
 import { api } from '@lib/api/api';
+import { useEffect } from 'react';
 
 export function useImageUpload(
     editorRef: React.RefObject<any>,
@@ -19,8 +19,8 @@ export function useImageUpload(
 
                 let currentPostId = postId;
 
-                // ✅ postId가 1이면 임시 게시물 생성
-                if (currentPostId === 1) {
+                // ✅ postId가 0이면 임시 게시물 생성
+                if (currentPostId === 0) {
                     const res = await api.post<{ postId: number }>('/api/v1/member-posts');
                     currentPostId = res.postId;
                     setPostId(currentPostId);
