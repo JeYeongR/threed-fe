@@ -14,7 +14,7 @@ export default function UserStateComponent() {
 
         if (providerType === 'KAKAO') {
             const clientId = process.env.NEXT_PUBLIC_KAKAO_API!;
-            const kakaoLogoutUrl = `https://kauth.kakao.com/oauth/logout?client_id=${clientId}&logout_redirect_uri=http://localhost:3000`;
+            const kakaoLogoutUrl = `https://kauth.kakao.com/oauth/logout?client_id=${clientId}&logout_redirect_uri=https://www.threed.site`;
             window.location.href = kakaoLogoutUrl;
             return;
         }
