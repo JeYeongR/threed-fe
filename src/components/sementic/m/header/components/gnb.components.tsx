@@ -10,9 +10,19 @@ export default function GnbComponent() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const hasSession = isSession();
-    setSession(hasSession);
+    const updateSessionStatus = () => {
+      const hasSession = isSession();
+      setSession(hasSession);
+    };
+
+    updateSessionStatus(); // 초기 상태 설정
     setMounted(true);
+
+    window.addEventListener('sessionChanged', updateSessionStatus);
+
+    return () => {
+      window.removeEventListener('sessionChanged', updateSessionStatus);
+    };
   }, []);
 
 

@@ -18,6 +18,9 @@ export function getAccessToken(): string | null {
 
 export function setAccessToken(token: string | null): void {
     accessToken = token;
+    if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('sessionChanged'));
+    }
 }
 
 export async function getToken(provider: SocialProvider, code: string): Promise<TokenResponse> {
