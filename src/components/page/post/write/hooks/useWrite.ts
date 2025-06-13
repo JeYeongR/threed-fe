@@ -1,6 +1,7 @@
-import { useCallback } from "react";
 import { api } from "@lib/api/api";
 import axios from "axios";
+import { useParams } from "next/navigation";
+import { useCallback } from "react";
 
 interface WriteFormData {
     title: string;
@@ -11,6 +12,8 @@ interface WriteFormData {
 }
 
 export function useWrite() {
+    const { id: idFromUrlParam } = useParams();
+
     const submit = useCallback(
         async (postId: number, data: WriteFormData): Promise<number | null> => {
             try {
@@ -60,7 +63,7 @@ export function useWrite() {
                     thumbnailImageUrl: imageUrl,
                 };
 
-                const method = postId ? "patch" : "post"; // 새 글: post, 수정: patch
+                const method = idFromUrlParam ? "patch" : "post";
 
                 await api[method](`/api/v1/member-posts/${id}`, payload);
 
