@@ -1,8 +1,8 @@
 'use client';
 
+import { useAuth } from '@hooks/useAuth';
 import Link from 'next/link';
 import styles from './userBtn.module.scss';
-import { useAuth } from '@hooks/useAuth';
 
 export default function UserBtnComponent() {
   const { isAuthenticated, logout } = useAuth();
@@ -12,7 +12,7 @@ export default function UserBtnComponent() {
 
     if (providerType === 'KAKAO') {
       const clientId = process.env.NEXT_PUBLIC_KAKAO_API!;
-      const kakaoLogoutUrl = `https://kauth.kakao.com/oauth/logout?client_id=${clientId}&logout_redirect_uri=http://localhost:3000`;
+      const kakaoLogoutUrl = `https://kauth.kakao.com/oauth/logout?client_id=${clientId}&logout_redirect_uri=https://www.threed.site`;
       window.location.href = kakaoLogoutUrl;
       return;
     }
