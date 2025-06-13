@@ -7,10 +7,41 @@ interface WriteFormData {
     content: string;
     field: string;
     skills: string[];
-    image?: File;
 }
 
 export function useWrite() {
+    const createTempPost = useCallback(async (): Promise<number | null> => {
+        try {
+            const response = await api.post<{ postId: number }>("/api/v1/member-posts", {});
+            return response.postId;
+        } catch (err) {
+            console.error("❌ 임시 게시물 생성 중 에러:", err);
+            alert("❌ 게시글 생성 중 오류가 발생했습니다.");
+            return null;
+        }
+    }, []);
+
+    const uploadImage = useCallback(async (postId: number, image: File): Promise<string | null> => {
+        if (!postId) {
+            console.error("❌ Post ID is not available for image upload.");
+            alert("❌ 이미지 업로드 중 오류가 발생했습니다. Post ID가 없습니다.");
+            return null;
+        }
+        try {
+            const uploadInfo = await api.post<{ presignedUrl: string; fileUrl: string }>(
+                `/api/v1/member-posts/${postId}/images`
+            );
+            await axios.put(uploadInfo.presignedUrl, image, {
+                headers: { "Content-Type": image.type },
+            });
+            return uploadInfo.fileUrl;
+        } catch (err) {
+            console.error("❌ 이미지 업로드 중 에러:", err);
+            alert("❌ 이미지 업로드 중 오류가 발생했습니다.");
+            return null;
+        }
+    }, []);
+
     const submit = useCallback(
         async (postId: number, data: WriteFormData): Promise<number | null> => {
             try {
@@ -33,23 +64,9 @@ export function useWrite() {
                     return null;
                 }
 
-                let id = postId;
-
-                // postId가 없을 경우 새로 생성
                 if (!postId) {
-                    const response = await api.post<{ postId: number }>("/api/v1/member-posts");
-                    id = response.postId;
-                }
-
-                let imageUrl = "";
-                if (data.image) {
-                    const uploadInfo = await api.post<{ presignedUrl: string; fileUrl: string }>(
-                        `/api/v1/member-posts/${id}/images`
-                    );
-                    await axios.put(uploadInfo.presignedUrl, data.image, {
-                        headers: { "Content-Type": data.image.type },
-                    });
-                    imageUrl = uploadInfo.fileUrl;
+                    alert("❌ 저장 중 오류 발생: Post ID가 없습니다.");
+                    return null;
                 }
 
                 const payload = {
@@ -57,15 +74,12 @@ export function useWrite() {
                     content: data.content,
                     field: data.field,
                     skills: data.skills,
-                    thumbnailImageUrl: imageUrl,
                 };
 
-                const method = postId ? "patch" : "post"; // 새 글: post, 수정: patch
-
-                await api[method](`/api/v1/member-posts/${id}`, payload);
+                await api.patch(`/api/v1/member-posts/${postId}`, payload);
 
                 alert("✅ 게시물이 저장되었습니다.");
-                return id;
+                return postId;
             } catch (err) {
                 console.error("❌ 게시물 저장 중 에러:", err);
                 alert("❌ 저장 중 오류 발생");
@@ -75,5 +89,5 @@ export function useWrite() {
         []
     );
 
-    return { submit };
+    return { submit, createTempPost, uploadImage };
 }
