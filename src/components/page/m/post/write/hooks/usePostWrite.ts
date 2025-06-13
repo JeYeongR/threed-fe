@@ -18,7 +18,7 @@ export function usePostWrite() {
         currentPostId,
         'member',
         currentPostId > 0,
-        false // editMode를 false로 변경
+        true
     );
 
     const titleRef = useRef<HTMLInputElement>(null);
