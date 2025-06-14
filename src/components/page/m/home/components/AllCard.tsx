@@ -1,9 +1,9 @@
 'use client';
 
-import Image from "next/image";
-import { useState } from "react";
 import CardBox from "@components/_utiles/m/list/ListBox.component";
 import Pagination from "@components/_utiles/pagination/pagination.component";
+import Image from "next/image";
+import { useState } from "react";
 import styles from "./AllCard.module.scss";
 
 interface Post {
@@ -59,7 +59,7 @@ export default function AllCardComponent({ type, posts, itemsPerPage = 20 }: Pos
                                         ? `/m/post/view/${item.id}?type=company`
                                         : `/m/post/view/${item.id}?type=member`
                                 }
-                                imageSrc={item.thumbnailImageUrl}
+                                imageSrc={item.thumbnailImageUrl ?? 'https://cdn.threed.site/thumbnails/threed.png'}
                                 isNew={item.isNew}
                                 isHot={item.isHot}
                                 title={item.title}

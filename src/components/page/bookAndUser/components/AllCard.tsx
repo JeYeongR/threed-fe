@@ -1,10 +1,10 @@
 // "use client";
 
+import CardBox from "@components/_utiles/card/CardBox.component";
+import Pagination from "@components/_utiles/pagination/pagination.component";
 import Image from "next/image";
 import { useState } from "react";
 import usePageData from '../hooks/usePosts';
-import CardBox from "@components/_utiles/card/CardBox.component";
-import Pagination from "@components/_utiles/pagination/pagination.component";
 import styles from "./AllCard.module.scss";
 interface PostListProps {
     type: 'bookmark' | 'mypage';
@@ -44,7 +44,7 @@ export default function AllCardcomponent({ type, itemsPerPage = 20,
                                             ? `/post/view/${item.id}?type=member`
                                             : `/post/view/${item.id}`
                                 }
-                                imageSrc={item.thumbnailImageUrl}
+                                imageSrc={item.thumbnailImageUrl ?? 'https://cdn.threed.site/thumbnails/threed.png'}
                                 isNew={item.isNew}
                                 isHot={item.isHot}
                                 title={item.title}
