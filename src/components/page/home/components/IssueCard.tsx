@@ -1,8 +1,8 @@
 // 이슈글 - 인기 게시글 카드 
 
-import Image from "next/image";
-import usePageData from '@components/page/home/hooks/usePosts';
 import CardBox from "@components/_utiles/card/CardBox.component";
+import usePageData from '@components/page/home/hooks/usePosts';
+import Image from "next/image";
 import styles from "./IssueCard.module.scss";
 
 interface HomeProps {
@@ -25,7 +25,7 @@ export default function IssuCardComponent({ type, condition }: HomeProps) {
                   ? `/post/view/${item.id}?type=company`
                   : `/post/view/${item.id}?type=member`
               }
-              imageSrc={item.thumbnailImageUrl}
+              imageSrc={item.thumbnailImageUrl ?? 'https://cdn.threed.site/thumbnails/threed.png'}
               isNew={item.isNew}
               isHot={item.isHot}
               title={item.title}

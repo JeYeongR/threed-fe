@@ -1,9 +1,9 @@
-import Image from "next/image";
-import { Swiper, SwiperSlide } from "swiper/react";
-import usePageData from '@components/page/home/hooks/usePosts';
 import CardBox from "@components/_utiles/m/card/CardBox.component";
-import styles from "./IssueCard.module.scss";
+import usePageData from '@components/page/home/hooks/usePosts';
+import Image from "next/image";
 import 'swiper/css';
+import { Swiper, SwiperSlide } from "swiper/react";
+import styles from "./IssueCard.module.scss";
 
 interface HomeProps {
   type: 'company' | 'member';
@@ -27,7 +27,7 @@ export default function IssuCardComponent({ type, condition }: HomeProps) {
                       ? `/post/view/${item.id}?type=company`
                       : `/post/view/${item.id}?type=member`
                   }
-                  imageSrc={item.thumbnailImageUrl}
+                  imageSrc={item.thumbnailImageUrl ?? 'https://cdn.threed.site/thumbnails/threed.png'}
                   isNew={item.isNew}
                   isHot={item.isHot}
                   title={item.title}
